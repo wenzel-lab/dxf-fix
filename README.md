@@ -67,10 +67,8 @@ DEFAULT_ARC_SEGMENTS = 100
 - A diagnostic image `snapped_points_overlay.png` visualizing snap effects
 - Any open paths that could not be closed will be written as `LINE`s
 
-## License
+## License and Attribution
 
 This project is licensed under the BSD 3-Clause License. See the LICENSE file for details.
 
-## Acknowledgement
-
-Developed by Tobias Wenzel – Wenzel Lab. If you use this tool in academic work, please consider citing relevant lab publications or linking back to this repository.
+It has been developed by Tobias Wenzel – Wenzel Lab. If you use this tool in academic work, please consider citing relevant lab publications or linking back to this repository.
