@@ -2,7 +2,12 @@
 
 **dxf-fix** is a Python command-line tool to clean and reconstruct DXF files for photolithography and other precision manufacturing workflows. It flattens arcs and splines into straight segments, snaps nearly-coincident endpoints with micrometer precision, removes duplicate segments, and reconstructs closed, independent shapes using clean `LWPOLYLINE`s.
 
-This tool is developed and maintained by Tobias Wenzel - Wenzel Lab.
+Many CAD tools export DXF files with curves and loosely connected endpoints, which:
+- Prevent proper nesting or shape detection in lithography tools like KLayout
+- Cause rendering artifacts or missing features
+- Require manual editing to unify and simplify structures
+
+**dxf-fix** automates the cleanup process and ensures your layout geometry is robust and ready for downstream applications.
 
 ## Features
 
@@ -12,6 +17,7 @@ This tool is developed and maintained by Tobias Wenzel - Wenzel Lab.
 - Reconstructs independent closed paths from raw segments
 - Outputs clean `LWPOLYLINE`s suitable for fabrication and visualization
 - Provides a high-resolution debug overlay image to inspect snapping behavior
+- Falls back to saving open paths as `LINE`s when closure is not possible
 
 ## Installation
 
@@ -21,15 +27,30 @@ Install Python 3.9+ and required packages using pip:
 pip install ezdxf matplotlib scipy
 ```
 
+### Optional: Create an Isolated Environment with Mamba / Micromamba
+
+If you'd prefer to isolate the dependencies using `mamba` or `micromamba`, you can create and activate an environment like this:
+
+```bash
+mamba create -n dxf-fix python=3.10 ezdxf matplotlib scipy
+mamba activate dxf-fix
+```
+
+Then, run the script as usual:
+
+```bash
+python fix_dxf_reconstruct_with_open_paths_fixed.py input.dxf output.dxf
+```
+
 ## Usage
 
 Run the tool from the command line:
 
 ```bash
-python fix_dxf_reconstruct_closed_shapes.py sorter-lithography-drawing.dxf output.dxf
+python fix_dxf_reconstruct_with_open_paths_fixed.py input.dxf output.dxf
 ```
 
-- `sorter-lithography-drawing.dxf`: input DXF file (e.g., exported from Onshape)
+- `input.dxf`: input DXF file (e.g., exported from Onshape)
 - `output.dxf`: cleaned DXF file with reconstructed shapes
 
 You can configure snapping precision and other parameters at the top of the script:
@@ -42,17 +63,9 @@ DEFAULT_ARC_SEGMENTS = 100
 
 ## Output
 
-- A cleaned DXF file with only closed `LWPOLYLINE`s
+- A cleaned DXF file with closed `LWPOLYLINE`s
 - A diagnostic image `snapped_points_overlay.png` visualizing snap effects
-
-## Problem It Solves
-
-Many CAD tools export DXF files with curves and loosely connected endpoints, which:
-- Prevent proper nesting or shape detection in lithography tools like KLayout
-- Cause rendering artifacts or missing features
-- Require manual editing to unify and simplify structures
-
-**dxf-fix** automates the cleanup process and ensures your layout geometry is robust and ready for downstream applications.
+- Any open paths that could not be closed will be written as `LINE`s
 
 ## License
 
