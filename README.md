@@ -70,10 +70,10 @@ These transformation options are useful when:
 
 ## Output
 
-- A cleaned DXF file with closed `LWPOLYLINE`s
-- - Any open paths that could not be closed will be written as `LINE`s
+- A cleaned DXF file with closed `LWPOLYLINE`s. Any open paths that could not be closed will be written as `LINE`s.
+- A summary of fixes and issues in the command line
 - A diagnostic image `reconstruction_overlay.png` showing snapping and open paths, see example below:
-
+  
 <p align="left">
 <img src="./images/reconstruction_overlay.png" width="800">
 </p>
