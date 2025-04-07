@@ -1,2 +1,63 @@
 # dxf-fix
-A Python tool to flatten, clean, snap, and reconstruct DXF shapes into closed, laser- or photolithography-ready outlines.
+
+**dxf-fix** is a Python command-line tool to clean and reconstruct DXF files for photolithography and other precision manufacturing workflows. It flattens arcs and splines into straight segments, snaps nearly-coincident endpoints with micrometer precision, removes duplicate segments, and reconstructs closed, independent shapes using clean `LWPOLYLINE`s.
+
+This tool is developed and maintained by Tobias Wenzel - Wenzel Lab.
+
+## Features
+
+- Flattens `LINE`, `ARC`, `CIRCLE`, `POLYLINE`, and `LWPOLYLINE` entities into line segments
+- Snaps endpoints using KD-tree clustering with tunable micrometer precision
+- Deduplicates symmetric segments (e.g., (A, B) == (B, A))
+- Reconstructs independent closed paths from raw segments
+- Outputs clean `LWPOLYLINE`s suitable for fabrication and visualization
+- Provides a high-resolution debug overlay image to inspect snapping behavior
+
+## Installation
+
+Install Python 3.9+ and required packages using pip:
+
+```bash
+pip install ezdxf matplotlib scipy
+```
+
+## Usage
+
+Run the tool from the command line:
+
+```bash
+python fix_dxf_reconstruct_closed_shapes.py sorter-lithography-drawing.dxf output.dxf
+```
+
+- `sorter-lithography-drawing.dxf`: input DXF file (e.g., exported from Onshape)
+- `output.dxf`: cleaned DXF file with reconstructed shapes
+
+You can configure snapping precision and other parameters at the top of the script:
+
+```python
+DEFAULT_UNIT = "mm"
+DEFAULT_PRECISION_UM = 0.1
+DEFAULT_ARC_SEGMENTS = 100
+```
+
+## Output
+
+- A cleaned DXF file with only closed `LWPOLYLINE`s
+- A diagnostic image `snapped_points_overlay.png` visualizing snap effects
+
+## Problem It Solves
+
+Many CAD tools export DXF files with curves and loosely connected endpoints, which:
+- Prevent proper nesting or shape detection in lithography tools like KLayout
+- Cause rendering artifacts or missing features
+- Require manual editing to unify and simplify structures
+
+**dxf-fix** automates the cleanup process and ensures your layout geometry is robust and ready for downstream applications.
+
+## License
+
+This project is licensed under the BSD 3-Clause License. See the LICENSE file for details.
+
+## Acknowledgement
+
+Developed by Tobias Wenzel – Wenzel Lab. If you use this tool in academic work, please consider citing relevant lab publications or linking back to this repository.
