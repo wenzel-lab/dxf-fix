@@ -71,10 +71,29 @@ These transformation options are useful when:
 ## Output
 
 - A cleaned DXF file with closed `LWPOLYLINE`s
-- A diagnostic image `reconstruction_overlay.png` showing snapping and open paths
-- Any open paths that could not be closed will be written as `LINE`s
+- - Any open paths that could not be closed will be written as `LINE`s
+- A diagnostic image `reconstruction_overlay.png` showing snapping and open paths, see example below:
 
-We recommend to view the output DXF file visually in the open source [KLayout software](https://www.klayout.de/build.html), also [on GitHub](https://github.com/KLayout/klayout). The viewer hatches closed areas nicely which indicates that lines are indeed closed and ready for the lithography machine or mask service. Switch the software opening mode to "edit mode" in order to delete lables you might not need.
+<p align="left">
+<img src="./images/reconstruction_overlay.png" width="800">
+</p>
+
+## Verification and Editing
+
+We recommend to view the output DXF file visually in the open source [KLayout software](https://www.klayout.de/build.html), also [on GitHub](https://github.com/KLayout/klayout). The viewer hatches closed areas nicely which indicates that lines are indeed closed and ready for the lithography machine or mask service. 
+<p align="left">
+<img src="./images/klayout-view-and-check.png" width="500">
+</p>
+
+You can double check that the final scale in micrometer of features in your file is correct by using the "Ruler" tool to measure an edge of known size.
+<p align="left">
+<img src="./images/klayout-comfirm-dimension.png" width="500">
+</p>
+
+Switch the software opening mode to "edit mode" in order to delete lables you might not need.
+<p align="left">
+<img src="./images/klayout-edit-delete-lables.png" width="500">
+</p>
 
 ## License and Attribution
 
