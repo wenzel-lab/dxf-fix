@@ -39,7 +39,7 @@ mamba activate dxf-fix
 Then, run the script as usual:
 
 ```bash
-python fix_dxf_reconstruct_with_open_paths_fixed.py input.dxf output.dxf
+python fix_dxf.py input.dxf output.dxf
 ```
 
 ## Usage
@@ -47,7 +47,7 @@ python fix_dxf_reconstruct_with_open_paths_fixed.py input.dxf output.dxf
 Run the tool from the command line:
 
 ```bash
-python fix_dxf_reconstruct_with_open_paths_fixed.py input.dxf output.dxf
+python fix_dxf.py input.dxf output.dxf
 ```
 
 - `input.dxf`: input DXF file (e.g., exported from Onshape)
