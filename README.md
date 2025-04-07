@@ -1,9 +1,9 @@
-# dxf-fix
+# dxf-fix [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
 
 **dxf-fix** is a Python command-line tool to clean and reconstruct DXF files for photolithography and other precision manufacturing workflows. It flattens arcs and splines into straight segments, snaps nearly-coincident endpoints with micrometer precision, removes duplicate segments, and reconstructs closed, independent shapes using clean `LWPOLYLINE`s.
 
 Many CAD tools export DXF files with curves and loosely connected endpoints, which:
-- Prevent proper nesting or shape detection in lithography tools like KLayout
+- Prevent proper nesting or shape detection in lithography tools like KLayout, and even more importantly the control softwares that power laser cutters, photoplotters, mask service providers and maskl-less lithography equipment
 - Cause rendering artifacts or missing features
 - Require manual editing to unify and simplify structures
 
@@ -18,6 +18,7 @@ Many CAD tools export DXF files with curves and loosely connected endpoints, whi
 - Outputs clean `LWPOLYLINE`s suitable for fabrication and visualization
 - Provides a high-resolution debug overlay image to inspect snapping behavior
 - Falls back to saving open paths as `LINE`s when closure is not possible
+- Optionally scales and flips the output geometry
 
 ## Installation
 
@@ -53,19 +54,27 @@ python fix_dxf.py input.dxf output.dxf
 - `input.dxf`: input DXF file (e.g., exported from Onshape)
 - `output.dxf`: cleaned DXF file with reconstructed shapes
 
-You can configure snapping precision and other parameters at the top of the script:
+You can configure snapping precision and additional output transformation parameters at the top of the script:
 
 ```python
 DEFAULT_UNIT = "mm"
 DEFAULT_PRECISION_UM = 0.1
 DEFAULT_ARC_SEGMENTS = 100
+OUTPUT_SCALE = 1.0  # Set to e.g. 0.5 to reduce the size by half
+FLIP_Y = False      # Set to True to vertically flip the output
 ```
+
+These transformation options are useful when:
+- Your DXF export is scaled differently (e.g., 2:1 or 10:1)
+- You need to mirror the layout vertically for lithography or alignment purposes
 
 ## Output
 
 - A cleaned DXF file with closed `LWPOLYLINE`s
-- A diagnostic image `snapped_points_overlay.png` visualizing snap effects
+- A diagnostic image `reconstruction_overlay.png` showing snapping and open paths
 - Any open paths that could not be closed will be written as `LINE`s
+
+We recommend to view the output DXF file visually in the open source [KLayout software](https://www.klayout.de/build.html), also [on GitHub](https://github.com/KLayout/klayout). The viewer hatches closed areas nicely which indicates that lines are indeed closed and ready for the lithography machine or mask service. Switch the software opening mode to "edit mode" in order to delete lables you might not need.
 
 ## License and Attribution
 
